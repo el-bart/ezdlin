@@ -27,15 +27,15 @@ description:\n\
   -w         => write to uC\n\
   -W         => as -w, but also veryfies\n");
  exit(1);
-};
+}
 
 
 // halts execution with given message and return code
-void halt_prg(char pname[], char msg[], int rc)
+void halt_prg(const char *pname, const char *msg, int rc)
 {
  fprintf(stderr, "%s: %s\n", pname, msg);
  exit(rc);
-};
+}
 
 
 //
@@ -94,10 +94,10 @@ int main(int argc, char *argv[])
         // check whether veryfing will pass
         if(rw_mode=='W')
         {
-          printf("verifing...\n");
+          printf("verifying...\n");
           if( zlprg_verify(&prg, &code)!=0 )
             halt_prg(argv[0], "zlprg_verify() failed", 50);
-        };
+        }
         break;
 
    case 'r':	// READ DATA FROM uC
@@ -110,12 +110,11 @@ int main(int argc, char *argv[])
           halt_prg(argv[0], "zlprg_file_write_bin() failed", 40);
         break;
 
- }; // switch(rw_mode)
+ } // switch(rw_mode)
 
  // finish working with port
  if( zlprg_close(&prg)!=0 )
    halt_prg(argv[0], "zlprg_close() failed to close port", 200);
 
  return 0;
-}; // main()
-
+} // main()

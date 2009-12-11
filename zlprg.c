@@ -27,7 +27,7 @@ static unsigned short checksum(struct zlprg_code *code)
    sum+=code->byte[i];
 
  return sum;
-}; // checksum()
+} // checksum()
 
 
 
@@ -40,7 +40,7 @@ static int hex2dig(char h)
  if('A'<=h)
    return h-'A'+10;
  return h-'0';
-}; // hex2dig()
+} // hex2dig()
 
 
 
@@ -67,10 +67,10 @@ static int uC_fill_by_type(struct zlprg_uC *uC)
         strcpy(uC->name, "<unknown> (assuming: 2048B EEPROM)");
         uC->eeprom=2048;	// by default we use 2048
         break;
- };
+ }
 
  return 0;
-};
+}
 
 
 
@@ -86,7 +86,7 @@ static int port_read_byte(struct zlprg *prg)
 //fprintf(stderr, "got %3d = 0x%2X = '%c'\n", c,c,(c>30)?c:'.');
 
  return c;
-}; // port_read_byte()
+} // port_read_byte()
 
 
 
@@ -114,7 +114,7 @@ static int port_read_str(struct zlprg *prg, char buf[], int min, int max,
      {
        i--;
        continue;
-     };
+     }
 
    // seek for the end of transmition?
    // (after: "\n ok\n >")
@@ -133,16 +133,16 @@ static int port_read_str(struct zlprg *prg, char buf[], int min, int max,
          if( memcmp(tmp, "\n\n ok", 5)==0 ||
              memcmp(tmp, "\n\r ok", 5)==0    )	// has also this part?
            *tmp=0;		// remove it as well!
-       };
+       }
        break;
-     };
-   };
- }; // for(bytes)
+     }
+   }
+ } // for(bytes)
 
  buf[i]=0;			// let's make it string... :)
 
  return 0;
-}; // port_read_str()
+} // port_read_str()
 
 
 
@@ -177,18 +177,18 @@ static int port_write_bytes(struct zlprg *prg, unsigned char c[], int len,
      x=port_read_byte(prg);
      if(x!=c[i])		// wrong echo?
        return -4;
-   }; // if(echo)
+   } // if(echo)
    // XOFF control...
    if(xoff)
    {
      x=port_read_byte(prg);
      if(x!=0x11 && x!=0x13)	// not XON/XOFF??
        return -2;
-   }; // if(xoff)
- }; // for(data)
+   } // if(xoff)
+ } // for(data)
 
  return 0;
-}; // port_write_byte()
+} // port_write_byte()
 
 
 
@@ -201,7 +201,7 @@ static int port_write_str(struct zlprg *prg, char data[],
  // write data
 //fprintf(stderr, "writing '%s'\n", data);
  return port_write_bytes(prg, (unsigned char*)data, strlen(data), xon, xoff, echo);
-}; // port_write()
+} // port_write()
 
 
 
@@ -229,7 +229,7 @@ static int cmd_set_size(struct zlprg *prg, int size)
    return -2;
 
  return 0;
-}; // cmd_set_size()
+} // cmd_set_size()
 
 
 
@@ -246,7 +246,7 @@ static int cmd_erase(struct zlprg *prg)
    return -2;
 
  return 0;
-}; // cmd_erase()
+} // cmd_erase()
 
 
 
@@ -275,7 +275,7 @@ static int cmd_write(struct zlprg *prg, char b[], int len)
    return -3;
 
  return 0;
-}; // cmd_write()
+} // cmd_write()
 
 
 
@@ -299,14 +299,14 @@ static int cmd_read(struct zlprg *prg, char b[], int len)
    // convert 2xHEX to BYTE
    b[i]  =hex2dig(buf[1])*16 + hex2dig(buf[0]);
 //   b[i]  =(b[i]+0x80)%256
- }; // for(HEX)
+ } // for(HEX)
 
  // skip regular output "\n ok\n >"
  if( port_read_str(prg, buf, 0, 31-1, 1)!=0 )
    return -3;
 
  return 0;
-}; // cmd_write()
+} // cmd_write()
 
 
 
@@ -332,14 +332,14 @@ static int cmd_params(struct zlprg *prg, struct zlprg_uC *uC)
    uC->type     =0xfe;
    uC->non_blank=-1;
    uC->bytes    =-1;
- };
+ }
 
  // and decode uC name
  if( uC_fill_by_type(uC)!=0 )
    return -3;
 
  return 0;
-}; // cmd_params()
+} // cmd_params()
 
 
 
@@ -361,7 +361,7 @@ static int cmd_intro(struct zlprg *prg, char intro[])
  prg->has_params=( strstr(intro, "89C2051/4051")!=NULL )?0:1;
 
  return 0;
-}; // cmd_intro()
+} // cmd_intro()
 
 
 
@@ -387,7 +387,7 @@ int zlprg_init(struct zlprg *prg, char dev[])
    close(prg->fd);
    prg->fd=-1;
    return -2;
- };
+ }
 
  // make copy of recieved settings
  prg->t_now=prg->t_prev;
@@ -399,7 +399,7 @@ int zlprg_init(struct zlprg *prg, char dev[])
    close(prg->fd);
    prg->fd=-1;
    return -3;
- };
+ }
 
 
 
@@ -482,14 +482,14 @@ int zlprg_init(struct zlprg *prg, char dev[])
    close(prg->fd);
    prg->fd=-1;
    return -4;
- };
+ }
 
  // read writer's into message
  if( cmd_intro(prg, prg->name)!=0 )
    return -5;
 
  return 0;
-}; // zlprg_init()
+} // zlprg_init()
 
 
 
@@ -521,7 +521,7 @@ int zlprg_write(struct zlprg *prg, struct zlprg_code *code)
 // TODO - checksum
 
  return 0;
-}; // zlprg_write()
+} // zlprg_write()
 
 
 
@@ -555,7 +555,7 @@ int zlprg_read(struct zlprg *prg, struct zlprg_code *code, int size)
  code->checksum=checksum(code);
 
  return 0;
-}; // zlprg_read()
+} // zlprg_read()
 
 
 
@@ -577,7 +577,7 @@ int zlprg_verify(struct zlprg *prg, struct zlprg_code *code)
    return -3;
 
  return 0;
-}; // zlprg_verify()
+} // zlprg_verify()
 
 
 
@@ -588,14 +588,14 @@ int zlprg_close(struct zlprg *prg)
  if( tcsetattr(prg->fd, TCSANOW, &prg->t_prev)!=0 )
  {
    // ??? :/
- };
+ }
 
  // we don't need this file anymore
  close(prg->fd);
  prg->fd=-1;
 
  return 0;
-}; // zlprg_close()
+} // zlprg_close()
 
 
 
@@ -608,7 +608,7 @@ int zlprg_uC(struct zlprg *prg, struct zlprg_uC *uC)
    return -2;
 
  return 0;
-}; // zlprg_uC()
+} // zlprg_uC()
 
 
 
@@ -627,13 +627,13 @@ int zlprg_file_write_bin(struct zlprg_code *code, char file[])
  {
    close(fd);
    return -2;
- };
+ }
 
  // close file
  close(fd);
 
  return 0;
-}; // zlprg_file_write_bin()
+} // zlprg_file_write_bin()
 
 
 
@@ -654,14 +654,14 @@ int zlprg_file_read_bin(struct zlprg_code *code, char file[])
  {
    close(fd);
    return -2;
- };
+ }
 
  // read raw data from file
  if( read(fd, code->byte, s.st_size)!=s.st_size )
  {
    close(fd);
    return -3;
- };
+ }
  code->len     =s.st_size;	// set proper code size
  code->checksum=checksum(code);	// and set checksum
 
@@ -669,6 +669,6 @@ int zlprg_file_read_bin(struct zlprg_code *code, char file[])
  close(fd);
 
  return 0;
-}; // zlprg_file_read_bin()
+} // zlprg_file_read_bin()
 
 
