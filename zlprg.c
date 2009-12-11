@@ -200,7 +200,7 @@ static int port_write_str(struct zlprg *prg, char data[],
 {
  // write data
 //fprintf(stderr, "writing '%s'\n", data);
- return port_write_bytes(prg, data, strlen(data), xon, xoff, echo);
+ return port_write_bytes(prg, (unsigned char*)data, strlen(data), xon, xoff, echo);
 }; // port_write()
 
 
@@ -264,7 +264,7 @@ static int cmd_write(struct zlprg *prg, char b[], int len)
 // for(i=0; i<len; i++)
 //   b[i]=(b[i]+0x80)%256;
  // start writing data
- if( port_write_bytes(prg, b, len, 1,1, 0)!=0 )
+ if( port_write_bytes(prg, (unsigned char*)b, len, 1,1, 0)!=0 )
    return -2;
 // ?????????????????????????????????
 // for(i=0; i<len; i++)
@@ -448,7 +448,7 @@ int zlprg_init(struct zlprg *prg, char dev[])
  prg->t_now.c_oflag&=~BSDLY;
  prg->t_now.c_oflag&=~VTDLY;
  prg->t_now.c_oflag&=~FFDLY;
- 
+
  prg->t_now.c_cflag&=~PARENB;
  prg->t_now.c_cflag&=~CSTOPB;
  prg->t_now.c_cflag&=~CSIZE;
