@@ -48,6 +48,8 @@ int main(int argc, char *argv[])
  struct zlprg_code code;	// code to R/W
  struct zlprg_uC   uC;		// uC info
 
+ printf("EZDLin v1.1.0\n");
+
  // program executed is it should be?
  if(argc!=4)
    fprintf_help(argv[0]);
