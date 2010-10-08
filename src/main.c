@@ -95,8 +95,24 @@ int main(int argc, char *argv[])
         if(rw_mode=='W')
         {
           printf("verifying...\n");
-          if( zlprg_verify(&prg, &code)!=0 )
-            halt_prg(argv[0], "zlprg_verify() failed", 50);
+          const int ret=zlprg_verify(&prg, &code);
+          switch(ret)
+          {
+            case 0:
+              break;
+            case -1:
+              halt_prg(argv[0], "zlprg_verify() failed: read error", 51);
+              break;
+            case -2:
+              halt_prg(argv[0], "zlprg_verify() failed: read differs from written", 52);
+              break;
+            case -3:
+              halt_prg(argv[0], "zlprg_verify() failed: checksum error", 53);
+              break;
+            default:
+              halt_prg(argv[0], "zlprg_verify() failed: unknown error occured - this may be a bug!", 54);
+              break;
+          }
         }
         break;
 
