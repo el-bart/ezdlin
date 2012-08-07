@@ -1,2 +1,10 @@
+-- v1.1.2
+* updated build process.
+* some docs added.
+* directory clean-up.
+
 -- v1.1.1
 * added link to project web page.
+
+-- v1.0.0 --
+* working version of the code.
