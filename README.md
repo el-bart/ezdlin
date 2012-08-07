@@ -1,4 +1,0 @@
-ezdlin
-======
-
-EZD for Linux
