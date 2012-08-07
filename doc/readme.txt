@@ -15,4 +15,4 @@ www:     http://www.baszerr.eu/doku.php/prjs/ezdlin/ezdlin
 
 license: GPL/revised BSD
 
-version: 1.1.1
+version: 1.1.2
