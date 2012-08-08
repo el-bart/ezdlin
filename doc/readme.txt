@@ -10,9 +10,6 @@ AT89C51
 AT89C2051
 
 author:  bartek szurgot
-
 www:     http://www.baszerr.eu/doku.php/prjs/ezdlin/ezdlin
-
 license: GPL/revised BSD
-
 version: 1.1.2
